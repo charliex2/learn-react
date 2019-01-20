@@ -4,6 +4,12 @@ import './App.css';
 import store from './store'
 import { Button, Input, List } from 'antd';
 
+import {
+  CHANGE_INPUT_VALUE,
+  DELETE_ITEM,
+  ADD_ITEM
+} from './store/actionTypes'
+
 class App extends Component {
   constructor(props){
     super(props)
@@ -18,7 +24,8 @@ class App extends Component {
         <List
           bordered
           dataSource={this.state.list}
-          renderItem={item => (<List.Item>{item}</List.Item>)}
+          renderItem={(item,index) => (<List.Item onClick={this.handleDeleteItem.bind(this,index)}
+          >{item}</List.Item>)}
         />    
       </div>
     );
@@ -26,7 +33,7 @@ class App extends Component {
 
   handleInputChange(e) {
     const action = {
-      type:'change-input-value',
+      type:CHANGE_INPUT_VALUE,
       value:e.target.value
     }
     store.dispatch(action)
@@ -35,7 +42,14 @@ class App extends Component {
 
   handleAddItem(e){
     store.dispatch({
-      type:'add-item',
+      type:ADD_ITEM,
+    })
+  }
+
+  handleDeleteItem(index){
+    store.dispatch({
+      type:DELETE_ITEM,
+      value:index
     })
   }
 
