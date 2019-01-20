@@ -1,27 +1,46 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import store from './store'
+import { Button, Input, List } from 'antd';
+
 class App extends Component {
+  constructor(props){
+    super(props)
+    this.state = store.getState();
+    store.subscribe(this.handleStoreChange.bind(this))
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Input placeholder="plesae input value" className="input-demo" onChange={this.handleInputChange}></Input>
+        <Button type="primary" className="click" onClick={this.handleAddItem}>Click</Button>
+        <List
+          bordered
+          dataSource={this.state.list}
+          renderItem={item => (<List.Item>{item}</List.Item>)}
+        />    
       </div>
     );
+  }
+
+  handleInputChange(e) {
+    const action = {
+      type:'change-input-value',
+      value:e.target.value
+    }
+    store.dispatch(action)
+    console.log(e.target.value)
+  }
+
+  handleAddItem(e){
+    store.dispatch({
+      type:'add-item',
+    })
+  }
+
+  handleStoreChange(){
+    this.setState(store.getState())
   }
 }
 
