@@ -9,6 +9,7 @@ import {
   DELETE_ITEM,
   ADD_ITEM
 } from './store/actionTypes'
+import { getDeleteItemAction, getAddItemAction, getInputChangeAction } from './store/actionCreators';
 
 class App extends Component {
   constructor(props){
@@ -32,25 +33,16 @@ class App extends Component {
   }
 
   handleInputChange(e) {
-    const action = {
-      type:CHANGE_INPUT_VALUE,
-      value:e.target.value
-    }
-    store.dispatch(action)
+    store.dispatch(getInputChangeAction(e.target.value))
     console.log(e.target.value)
   }
 
   handleAddItem(e){
-    store.dispatch({
-      type:ADD_ITEM,
-    })
+    store.dispatch(getAddItemAction(e.target.value))
   }
 
   handleDeleteItem(index){
-    store.dispatch({
-      type:DELETE_ITEM,
-      value:index
-    })
+    store.dispatch(getDeleteItemAction())
   }
 
   handleStoreChange(){
