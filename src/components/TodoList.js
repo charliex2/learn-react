@@ -4,7 +4,7 @@ import store from '../store'
 
 import TodoListUI from './TodoListUI'
 
-import { getDeleteItemAction, getAddItemAction, getInputChangeAction } from '../store/actionCreators';
+import { getDeleteItemAction, getAddItemAction, getInputChangeAction, getItemData } from '../store/actionCreators';
 
 
 class TodoList extends Component {
@@ -13,6 +13,10 @@ class TodoList extends Component {
         this.state = store.getState();
         store.subscribe(this.handleStoreChange.bind(this))
       }
+    componentDidMount(){
+        const action = getItemData()
+        store.dispatch(action)
+    }
 
     render(){
         return (
